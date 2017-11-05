@@ -70,6 +70,9 @@ spots = {
 daysInReport = 6
 conditionTypes=["","flat", "very poor", "poor","poor to fair","fair","fair to good","good","very good","good to epic","epic"]
 
+# to account for the Server Location in Ireland
+hourcorrection = datetime.timedelta(hours = 6)
+
 class SurfSpot:
     baseUrl="http://api.surfline.com/v1/forecasts/0000?resources=surf,analysis&days=6&getAllSpots=false&units=e&interpolate=false&showOptimal=false"
     
@@ -235,7 +238,8 @@ class SurfSpot:
         #print(self.lowtidevalues)
           
         # need to find out the next tide and and value
-        nowtime = datetime.datetime.now()     
+        nowtime = datetime.datetime.now() - hourcorrection
+        
         for t in range(len(tideReport["predictions"])):
            tidetime = datetime.datetime.strptime(tideReport["predictions"][t]["t"], "%Y-%m-%d %H:%M")
            if tidetime > nowtime:
@@ -349,14 +353,17 @@ class SurfSpot:
         return reportText
           
     def printTideReport(self,day = None):
+        reportText = ""
+        tidetext = ""
         if day == 0:
            reportText = "The tide for " + self.spotName + " is "
            if self.nexttimetype == "HIGH":
               reportText = reportText + "rising to a high of "
            else:
               reportText = reportText + "falling to a low of "
-           reportText = reportText + str(self.nexttidevalue) + " at "
-           reportText = reportText + str(self.nexttidetime)
+           reportText = reportText + str(round(float(self.nexttidevalue),1)) + " at "
+           reportText = reportText + str(self.nexttidetime) + ".           "
+        else:
            if len(self.hightidetimes)>1:
               tidetext = " There are high Tides at "
            else:
@@ -366,11 +373,11 @@ class SurfSpot:
               if x != len(self.hightidetimes[day])-1:
                  tidetext = tidetext + " and "
               else:
-                 tidetext = tidetext + " "
+                 tidetext = tidetext + ".   "
            if len(self.hightidetimes)>1:
-              tidetext = tidetext + " and at values of  "
+              tidetext = tidetext + " The tide values are  "
            else:
-              tidetext = tidetext + " and at a value of "
+              tidetext = tidetext + " The tide value is "
            for x in range(0,len(self.hightidetimes[day])):
               tidevalue = round(float(self.hightidevalues[day][x]),1)
               #print(round(float(tidevalue),1))
@@ -378,7 +385,7 @@ class SurfSpot:
               if x != len(self.hightidetimes[day])-1:
                  tidetext = tidetext + " and "
               else:
-                 tidetext = tidetext + " feet "
+                 tidetext = tidetext + " feet.        "
                  
            if len(self.hightidetimes)>1:
               tidetext = tidetext + " The low tides are at "
@@ -389,11 +396,11 @@ class SurfSpot:
               if x != len(self.lowtidetimes[day])-1:
                  tidetext = tidetext + " and "
               else:
-                 tidetext = tidetext + " "
+                 tidetext = tidetext + " .        "
            if len(self.lowtidetimes)>1:
-              tidetext = tidetext + " and at values of  "
+              tidetext = tidetext + " The values are  "
            else:
-              tidetext = tidetext + " and at a value of "
+              tidetext = tidetext + " The value is  "
            
            for x in range(0,len(self.lowtidetimes[day])):
               tidevalue = round(float(self.lowtidevalues[day][x]),1)
@@ -401,7 +408,7 @@ class SurfSpot:
               if x != len(self.lowtidetimes[day])-1:
                  tidetext = tidetext + " and "
               else:
-                 tidetext = tidetext + " feet "
+                 tidetext = tidetext + " feet.               "
 
                  #else:
         return reportText + tidetext 
@@ -409,7 +416,7 @@ class SurfSpot:
     def printBestDayToSurf(self):
    
         indexdate = datetime.date.today()
-        daydelta = datetime.timedelta(days = 1)  
+        daydelta = datetime.timedelta(days = 1*self.bestdaytosurf)  
         bestsurfday = indexdate + daydelta
         if (self.bestdaytosurf ==0):
            reportText = "The best day to surf is today"

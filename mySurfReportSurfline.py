@@ -29,5 +29,6 @@ if __name__ == "__main__":
         print(r.printTideReport(0))
         print(r.printBestDayToSurf())
         print("On this day ")
-        print(r.printReport(r.bestdaytosurf))     
+        print(r.printReport(r.bestdaytosurf))  
+        print(r.printTideReport(2))        
         break
