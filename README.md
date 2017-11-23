@@ -21,12 +21,12 @@ defining the surf spots:
 The SurfSpotID = 4233
 
 * Getting the RegionalID:
-**  The RegionalID is found by going to the REgional web report.  For Salt Creek, this is :
+  *  The RegionalID is found by going to the REgional web report.  For Salt Creek, this is :
 http://www.surfline.com/surf-forecasts/southern-california/south-orange-county_2950/
 The RegionalIP = 2950
 
 * Getting the NOAA Tide ID location: 
- go to the following WEb page:
+  * go to the following WEb page:
  https://tidesandcurrents.noaa.gov/tide_predictions.html?gid=1393
 find the closest Tide Sensor ID for salt Creek.   This will be San Clemente. 
 the NOAA_TideID = TWC0419 
