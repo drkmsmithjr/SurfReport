@@ -12,7 +12,7 @@ New surf locations are added to the surfspot.cvs file.  You need the following:
 * regional ID
 * NOAA Tide locater ID.    
  
-The location name, SpotID, and regional ID can be taken from the HTTP address of the corresponding surfline.com surf report and the NOAA tide database located at https://tidesandcurrents.noaa.gov.  After adding, please submit a pull request and I'll add to the Amazon Alexa Skill.   
+The location name, SpotID, and regional ID can be taken from the HTTP address of the corresponding surfline.com surf report and the NOAA tide database located at https://tidesandcurrents.noaa.gov.  After adding, please submit a pull request and I'll add to master.   
 
 defining the surf spots:
 
