@@ -29,13 +29,12 @@ import csv
 # first number: SurlineID spot
 # second number: surfline Regional Spot
 # third number: NOAA tide ID location
-# forth number: NOAA Water temp location backup.  If not available at Tide ID location
 
 spots = {
-    'uppers':["4738","2950","TWC0419",],
+    'uppers':["4738","2950","TWC0419"],
     'upper trestles':["4738","2950","TWC0419"],
     'upper':["4738","2950","TWC0419"],
-    'salt creek':["4233","2950","TWC0419","TWC0419"],
+    'salt creek':["4233","2950","TWC0419"],
     'doheny':["4848","2950","TWC0419"],
     'do heaney':["4848","2950","TWC0419"],
     'doheny state beach':["4848","2950","TWC0419"],
@@ -88,7 +87,7 @@ def getsurfspots(spots2):
       for row in csvreader:
          if row[0] != 'Surf Spot' and row[1] != "":
             #print row
-            spots[row[0].lower()] = [row[1],row[2],row[3],row[4]] 
+            spots[row[0].lower()] = [row[1],row[2],row[3]]
          #else: 
             #print("the first row or a region label")
    #spots2['Tamarack'] = ["4242","2144","9410230"]  
@@ -102,7 +101,7 @@ class SurfSpot:
     # ZZZZZZZZ equals YEAR 4 characters, MOnth 2 characters, Day 2 characters
     # YYYYYYYY equals YEAR 4 characters, month 2 characters, day 2 charactors
     # XXXXXXX is from the NOAA station number.  Some stations need testing to be sure    
-    baseUrlNoaa="https://tidesandcurrents.noaa.gov/api/datagetter?product=predictions&application=Surfncircuits.com.surf.checker&begin_date=ZZZZZZZZ&end_date=YYYYYYYY&datum=MLLW&station=XXXXXXX&time_zone=lst_ldt&units=english&interval=hilo&format=json"
+    baseUrlNoaa="https://tidesandcurrents.noaa.gov/api/datagetter?product=predictions&application=SurfChecker&begin_date=ZZZZZZZZ&end_date=YYYYYYYY&datum=MLLW&station=XXXXXXX&time_zone=lst_ldt&units=english&interval=hilo&format=json"
     heightsMax=[]
     heightsMin=[]
 
@@ -116,7 +115,7 @@ class SurfSpot:
     regionalConditions=[]
     Tides=[]
     
-    def __init__(self, spotName, spotID, regionalID, tideID, waterID = 0):
+    def __init__(self, spotName, spotID, regionalID, tideID):
         # create object with the spot name, spotID and regionalID.  Both are available in HTTP addresss associaed with  
         # the surfline.com site.    
         self.spotName = spotName
@@ -136,23 +135,19 @@ class SurfSpot:
 
         # create the water temp ULR address to the CO_OPS API at NOAA
         # replace tideID for the surf spot
-        if (waterID == 0) or (waterID == ''):
-           self.noaaWaterTempUrl=self.baseUrlNoaa.replace("XXXXXXX",tideID)
-        else:
-           self.noaaWaterTempUrl=self.baseUrlNoaa.replace("XXXXXXX",waterID)
+        self.noaaWaterTempUrl=self.baseUrlNoaa.replace("XXXXXXX",tideID)
         #create the water temperature ULR.  Replace PRODUCT:predictions with water_temperature
-        self.noaaWaterTempUrl=self.noaaWaterTempUrl.replace("product=predictions","product=water_temperature")# use the beginning date
-        self.noaaWaterTempUrl = self.noaaWaterTempUrl.replace("ZZZZZZZZ",now.strftime("%Y%m%d"))
-        #replace the end_date with range=3 to get the first three hours of water temperature
-        self.noaaWaterTempUrl=self.noaaWaterTempUrl.replace("end_date=YYYYYYYY","range=3")       
-        
-        #print(self.noaaWaterTempUrl)
+        self.noaaWaterTempUrl=self.noaaWaterTempUrl.replace("product=predictions","product=water_temperature")        # use the beginning date
+        self.noaaWaterTempUrl = self.nnoaaWaterTempUrl.replace("ZZZZZZZZ",now.strftime("%Y%m%d"))
+        # replace the end_date with range=3 to get the first three hours of water tempeature
+        self.noaaTideUrl=self.noaaTideUrl.replace("end_date=YYYYYYYY","range=3")       
+
+        #print(self.noaaTideUrl)
         # all these arrays can have totals each day        
         self.heightsMax=[]
         self.heightsMin=[]
         self.surfText=[]
         self.regionalConditions=[]
-        
         # high tides time for each day.   The items of each day will be another arrays
         # the array items will be array for each day.  = [tidetime1,tidetime2]
         # we will keep track of tides during day +- 1 hours before after sunset.
@@ -168,9 +163,9 @@ class SurfSpot:
         
         # default best day to surf is today
         self.bestdaytosurf = 0
-        
-        # water temperatuer
-        self.waterTemp = 0
+       
+        # water temperature at the NOAA Tide Station for the surf spot
+        self.watertemp = 00
         
     def parseTideReport(self,tideReport):
     
@@ -304,29 +299,18 @@ class SurfSpot:
         #print tideReport["predictions"][0]["type"]                           
         # get tide information 
         self.parseTideReport(tideReport)
-        
-    def getWaterTemp(self):       
-        webreq = urllib2.Request(self.noaaWaterTempUrl, None, {'user-agent':'www.surfncircuits.com'})
+
+    def geWaterTempp(self):       
+        webreq = urllib2.Request(selfnoaaWaterTempUrll, None, {'user-agent':'www.surfncircuits.com'})
         f = urllib2.urlopen(webreq)
         fstr = f.read()
         #print fstr
-        WaterTempReport=json.loads(fstr)    
-        #print(WaterTempReport["data"])        
-        # average the last three hours of datagetter
-        count = 0
-        tempsum = 0
-        if WaterTempReport.get("data"):
-           for t in range(len(WaterTempReport["data"])):
-              count += 1
-              tempsum = tempsum + float(WaterTempReport["data"][t]["v"])
-              #print(tempsum)
-           self.waterTemp =  round(float(tempsum/count),1)
-        else:
-           self.waterTemp = 0
-        #print(self.waterTemp)
-                
-
+       WaterTemppReport=json.loads(fstr
+         
+ 
         
+           
+                
     def getReport(self):
         # use the spot API to get the current information
         # use the regional API address (regionsalReport) to get the forecast information
@@ -483,13 +467,4 @@ class SurfSpot:
         else:
            reportText = "The Best Day to Surf is this upcoming " + bestsurfday.strftime("%A") + "."
  
-        return reportText
-        
-    def printWaterTemp(self):
-   
-        if (self.waterTemp ==0):
-           reportText = "Sorry, the Water temperature is not available for " + self.spotName
-        else:
-           reportText = "The water Temperature for " + self.spotName + " is " + str(self.waterTemp) +  " degrees Fahrenheit."
- 
-        return reportText    
+        return reportTex
