@@ -24,10 +24,7 @@ if __name__ == "__main__":
     #report.getWaterTemp()
     #print(report.printWaterTemp())
     for spot in spots:
-        if len(spots[spot])==4:
-           report = SurfSpot(spot, spots[spot][0], spots[spot][1], spots[spot][2], spots[spot][3])
-        else:
-           report = SurfSpot(spot, spots[spot][0], spots[spot][1], spots[spot][2]) 
+        report = SurfSpot(spot, spots[spot][0], spots[spot][1], spots[spot][2], spots[spot][3])
         reports.append(report)
         #print(spots)
         #break
