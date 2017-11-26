@@ -2,7 +2,7 @@
 Surf Report Python Code
 
 Check out the full blog at www.surfncircuits.com
-**"Creating the "Surf Checker".  An Amazon Echo Skill"**
+[**"Creating the "Surf Checker".  An Amazon Echo Skill"**](http://surfncircuits.com/2017/10/28/creating-the-surf-checker-an-amazon-echo-skill/)
 
 This file shows a stand along python code that will generate the surf report and tide information.   While a stand along project, it is also used to develope the underlying python datastructure and code for the Lambda function portion of the Amazon Surf Checker skill .         
 New surf locations are shown in the surfspot.cvs file.  To add additional spots,    You need the following:
