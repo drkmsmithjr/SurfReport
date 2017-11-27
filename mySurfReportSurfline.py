@@ -18,10 +18,10 @@ if __name__ == "__main__":
     # add more surf spots to spots
     spots = getsurfspots(spots)
     # create an array of surf report objects
-    sName = 'steamer lane  '
-    report = SurfSpot(sName,spots[sName][0],spots[sName][1],spots[sName][2],spots[sName][3])
-    report.getReport()
-    print(report.printReport(0))
+    #sName = 'steamer lane'
+    #report = SurfSpot(sName,spots[sName][0],spots[sName][1],spots[sName][2],spots[sName][3])
+    #report.getReport()
+    #print(report.printReport(0))
     #report.getWaterTemp()
     #print(report.printWaterTemp())
     for spot in spots:
@@ -34,7 +34,7 @@ if __name__ == "__main__":
     for r in reports:
         # we need to call tehse reports to get info and search
         #try:
-           r.getReport()
+        #r.getReport()
         #   print(r.printReport(0))
         #except:
         #   print("there was an issue getting the surf report: please try later")
