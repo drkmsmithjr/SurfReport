@@ -18,15 +18,16 @@ if __name__ == "__main__":
     # add more surf spots to spots
     spots = getsurfspots(spots)
     # create an array of surf report objects
-    #report = SurfSpot('salf creek',spots['salt creek'][0],spots['salt creek'][1],spots['salt creek'][2],spots['salt creek'][3])
-    #report.getReport()
-    #print(report.printReport(0))
+    sName = 'steamer lane  '
+    report = SurfSpot(sName,spots[sName][0],spots[sName][1],spots[sName][2],spots[sName][3])
+    report.getReport()
+    print(report.printReport(0))
     #report.getWaterTemp()
     #print(report.printWaterTemp())
     for spot in spots:
         report = SurfSpot(spot, spots[spot][0], spots[spot][1], spots[spot][2], spots[spot][3])
         reports.append(report)
-        #print(spots)
+        #print(spot)
         #break
         
      
