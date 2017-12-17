@@ -34,15 +34,15 @@ if __name__ == "__main__":
     for r in reports:
         # we need to call tehse reports to get info and search
         #try:
+        print(r.spotName)
         r.getReport()
-        print(r.printReport(0))
-        #except:
-        #   print("there was an issue getting the surf report: please try later")
-        #try:
-           #r.getTideReport()
-           #print(r.printTideReport(0))
+        r.getTideReport()
+        for x in range(0,6):
+           print("  " + r.printReport(x))
+        for x in range(0,6):
+           print("  " + r.printTideReport(x))
         r.getWaterTemp()
-        print(r.printWaterTemp())
+        print("  " + r.printWaterTemp())
            
         #except:
         #   print("there was an issue getting the tide report: please try later") 
