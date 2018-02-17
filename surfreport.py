@@ -68,7 +68,7 @@ spots = {
 }
 
 daysInReport = 6
-conditionTypes=["","flat", "very poor", "poor","poor to fair","fair","fair to good","good","very good","good to epic","epic"]
+conditionTypes=["","flat","FLAT", "very poor","VERY POOR", "poor","POOR","poor to fair","POOR TO FAIR","fair","FAIR","fair to good","FAIR TO GOOD","good","GOOD","very good","VERY GOOD","good to epic","GOOD TO EPIC","epic","EPIC"]
 
 # to account for the Server Location in Ireland
 hourcorrection = datetime.timedelta(hours = 7)
@@ -373,10 +373,13 @@ class SurfSpot:
 
         # save the surf report for each day
         self.surflineName=rep["name"]
+        #print(rep)
+        #print(regionalReport)
         for day in range(0,daysInReport):
             daysAvgMax=0
             daysAvgMin=0
             self.regionalConditions.append(conditionTypes.index(regionalReport["Analysis"]["generalCondition"][day]))
+            #self.regionalConditions.append((regionalReport["Analysis"]["generalCondition"][day]))
             if day == 0:
                if ((len(rep["Analysis"]["surfMax"]) > 0) and (rep["Analysis"]["surfMax"][day] != "")) :
                   daysAvgMax=int(rep["Analysis"]["surfMax"][day])
